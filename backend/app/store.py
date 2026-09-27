@@ -28,8 +28,11 @@ class Store:
         return None
 
     def overview(self) -> dict[str, object]:
+        # 采集核对队列等内部暂存表（_queue 结尾）不进入业务模块看板。
         modules: list[dict[str, object]] = []
         for name in self.module_names():
+            if name.endswith("_queue"):
+                continue
             rows = self.rows(name)
             modules.append({
                 "name": name,
